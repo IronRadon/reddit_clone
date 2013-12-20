@@ -2,28 +2,29 @@ class SubsController < ApplicationController
   include SessionsHelper
   def new
     @sub = Sub.new
-    5.times { @sub.links.build }
+     5.times { @sub.links.build }
   end
 
   def create
     attrs = params[:sub][:links_attributes]
 
-    attrs.values.map do |link_attrs|
+    attrs.values.map! do |link_attrs|
       link_attrs[:user_id] = current_user.id
     end
 
     @sub = Sub.new(params[:sub])
     @sub.mod_id = current_user.id
-
     okay_links = attrs.select do |key, hash|
       hash.values.all? { |value| value != "" }
     end
+    link_objs = []
+    okay_links.each do |key, hash|
+      link_objs << Link.new(hash)
+    end
+    @sub.links = link_objs
 
-    p okay_links
-
-    debugger
-
-    @sub.links.new(okay_links.values)
+    # @sub.links.new(okay_links.values)
+    p @sub.links
 
     if @sub.save
       redirect_to sub_url(@sub)
