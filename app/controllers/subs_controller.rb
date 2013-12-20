@@ -1,16 +1,23 @@
 class SubsController < ApplicationController
+  include SessionsHelper
   def new
     @sub = Sub.new
+    5.times { @sub.links.build }
   end
 
   def create
+    params[:sub][:links_attributes].values.map do |link_attrs|
+      link_attrs[:user_id] = current_user.id
+    end
     @sub = Sub.new(params[:sub])
-    @sub.links.new(params[:links].values)
+    @sub.mod_id = current_user.id
+    @sub.links.new(params[:sub][:links_attributes].values)
+
     if @sub.save
       redirect_to sub_url(@sub)
     else
-      flash.now[:errors] = @sub.errors.full_messages
-      render :new
+      flash[:errors] = @sub.errors.full_messages
+      redirect_to new_sub_url
     end
   end
 

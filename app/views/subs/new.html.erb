@@ -6,9 +6,21 @@
 
 	<label for="name">Name</label>
 	<input type="text" id="name" name="sub[name]">
+	<br>
 
-	<label for="title">Title</label>
-	<input type="text" id="title" name="sub[title]">
+	<label for="description">DESCRIPTION</label>
+	<input type="text" id="description" name="sub[description]">
+	<br>
 
+	<% @sub.links.each_with_index do |link, i| %>
+	<label for="title<%= i %>">Title</label>
+		<input name="sub[links_attributes][<%= link.object_id %>][title]"
+		id="title<%= i %>">
+		<label for="url<%= i %>">url</label>
+	  <input name="sub[links_attributes][<%= link.object_id %>][url]"
+		id="url<%= i %>">
+		<br>
+	<% end %>
+	<input type="submit" value ="Submit Sub">
 
 </form>

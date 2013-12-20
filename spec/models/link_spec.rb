@@ -10,4 +10,9 @@ describe Link do
   it "has an url" do
     expect(bad_link).to have(1).error_on(:url)
   end
+
+  it {should belong_to(:user)}
+
+  it {should have_many(:subs).through(:link_subs)}
+
 end

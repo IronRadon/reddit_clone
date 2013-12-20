@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   validates :password, :length => { :minimum => 6 }, :on => :create
   validates :username, :uniqueness => true
 
+  has_many(:subs,
+           :foreign_key => :mod_id)
+  has_many(:links)
+
   def password=(secret)
     @password = secret
     self.password_digest = BCrypt::Password.create(secret)
@@ -30,4 +34,5 @@ class User < ActiveRecord::Base
   def is_password?(password)
     BCrypt::Password.new(password_digest).is_password?(password)
   end
+
 end

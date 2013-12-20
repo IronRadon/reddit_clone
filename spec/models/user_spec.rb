@@ -38,4 +38,8 @@ describe User do
     user1
     expect(User.find_by_id(1).password).to eq(nil)
   end
+
+  it { should have_many(:subs) }
+
+  it { should have_many(:links) }
 end

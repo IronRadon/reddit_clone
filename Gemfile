@@ -18,6 +18,7 @@ group :development, :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
+  gem 'shoulda-matchers'
 end
 
 # Gems used only for assets and not required
